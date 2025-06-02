@@ -48,15 +48,19 @@ function modelReady() {
 }
 
 function draw() {
-  // 單色背景（可自行調整顏色）
+  // 讓背景單色填滿整個視窗
   background(220);
 
-  // 攝影機畫面顯示在畫面正中央
+  // 攝影機畫面顯示在畫面正中央（不鋪滿）
   if (videoReady && video.loadedmetadata) {
     push();
-    translate((width + 640) / 2, (height - 480) / 2); // 置中
-    scale(-1, 1); // 水平翻轉
-    image(video, 0, 0, 640, 480);
+    // 計算攝影機畫面置中座標
+    let camW = 640, camH = 480;
+    let camX = (width - camW) / 2;
+    let camY = (height - camH) / 2;
+    translate(camX + camW, camY); // 先移動到正確位置再鏡像
+    scale(-1, 1);
+    image(video, 0, 0, camW, camH);
     pop();
   } else {
     fill(0);
