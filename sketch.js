@@ -44,9 +44,8 @@ function modelReady() {
 function draw() {
   background(220);
 
-  // 改善 video 檢查
+  // 攝影機畫面水平翻轉
   if (videoReady && video.loadedmetadata) {
-    // 水平翻轉攝影機畫面
     push();
     translate(width, 0);
     scale(-1, 1);
@@ -92,6 +91,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   text(q.right, width * 3 / 4, height / 2 + 40);
 
+  // 只在 showResult 為 false 時偵測作答
   if (poses.length > 0 && !showResult) {
     let pose = poses[0].pose;
     let leftWrist = pose.leftWrist;
@@ -99,12 +99,12 @@ function draw() {
 
     if (leftWrist.confidence > 0.5 && leftWrist.x < width / 4 && leftWrist.y > height / 2 && leftWrist.y < height / 2 + 80) {
       checkAnswer("left");
-    }
-    if (rightWrist.confidence > 0.5 && rightWrist.x > width * 3 / 4 && rightWrist.y > height / 2 && rightWrist.y < height / 2 + 80) {
+    } else if (rightWrist.confidence > 0.5 && rightWrist.x > width * 3 / 4 && rightWrist.y > height / 2 && rightWrist.y < height / 2 + 80) {
       checkAnswer("right");
     }
   }
 
+  // 顯示答題結果
   if (showResult) {
     fill(resultText === "正確！" ? color(0, 200, 0) : color(200, 0, 0));
     textSize(48);
@@ -113,6 +113,7 @@ function draw() {
   }
 }
 
+// 每題只判定一次，顯示結果後自動跳下一題
 function checkAnswer(ans) {
   showResult = true;
   if (questions[questionIndex].answer === ans) {
