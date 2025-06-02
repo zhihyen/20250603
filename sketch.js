@@ -185,7 +185,7 @@ function draw() {
 
     // 檢查左手掌是否碰到左選項
     if (
-      leftWrist.score > 0.15 && leftBase.score > 0.15 &&
+      leftWrist.score > 0.05 && leftBase.score > 0.05 &&
       leftPalmX > optionLeft.x &&
       leftPalmX < optionLeft.x + optionLeft.w &&
       leftPalmY > optionLeft.y &&
