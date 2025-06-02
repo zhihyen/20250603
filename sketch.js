@@ -46,7 +46,12 @@ function draw() {
 
   // 改善 video 檢查
   if (videoReady && video.loadedmetadata) {
+    // 水平翻轉攝影機畫面
+    push();
+    translate(width, 0);
+    scale(-1, 1);
     image(video, 0, 0, width, height);
+    pop();
   } else {
     fill(0);
     textSize(32);
