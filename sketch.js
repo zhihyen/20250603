@@ -70,6 +70,43 @@ function draw() {
   textAlign(RIGHT, TOP);
   text("分數: " + score, width - 10, 10);
 
+  // ====== 新增：開頭偵測手腕的雙手模型圖示 ======
+  if (poses.length === 0) {
+    // 提示文字
+    fill(255, 255, 0, 200);
+    noStroke();
+    textSize(28);
+    textAlign(CENTER, CENTER);
+    text("請將雙手手腕放在畫面內\n對準下方圖示", width / 2, 100);
+
+    // 畫出雙手模型圖示（簡單圓形代表手腕）
+    let leftWristGuideX = width / 4;
+    let rightWristGuideX = width * 3 / 4;
+    let wristGuideY = height / 2 + 60;
+
+    // 身體
+    stroke(100);
+    strokeWeight(4);
+    line(width / 2, wristGuideY - 60, width / 2, wristGuideY + 40); // 身體
+    line(width / 2, wristGuideY - 30, leftWristGuideX, wristGuideY); // 左手
+    line(width / 2, wristGuideY - 30, rightWristGuideX, wristGuideY); // 右手
+
+    // 手腕圓點
+    noStroke();
+    fill(255, 128, 0, 200);
+    ellipse(leftWristGuideX, wristGuideY, 36, 36);
+    fill(0, 200, 255, 200);
+    ellipse(rightWristGuideX, wristGuideY, 36, 36);
+
+    // 標示
+    fill(0);
+    textSize(18);
+    text("左手腕", leftWristGuideX, wristGuideY + 30);
+    text("右手腕", rightWristGuideX, wristGuideY + 30);
+
+    return; // 不進行後續題目顯示
+  }
+
   if (questionIndex >= questions.length) {
     fill(0, 200, 0);
     textSize(40);
