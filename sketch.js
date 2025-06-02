@@ -99,9 +99,22 @@ function draw() {
   text(q.right, width * 3 / 4, optionRight.y + optionRight.h / 2);
 
   // 只在 showResult 為 false 時偵測作答
-  if (poses.length > 0 && !showResult) {
+  if (poses.length > 0) {
     let pose = poses[0].pose;
-    let keypoints = poses[0].pose.keypoints;
+    let keypoints = pose.keypoints;
+
+    // 畫出所有關鍵點
+    for (let i = 0; i < keypoints.length; i++) {
+      let kp = keypoints[i];
+      let x = width - kp.position.x; // 鏡像
+      let y = kp.position.y;
+      if (kp.score > 0.2) {
+        fill(255, 0, 0);
+        ellipse(x, y, 10, 10);
+        fill(0);
+        text(i, x + 10, y); // 標上編號
+      }
+    }
 
     // 取得左右手掌（leftPalm: keypoints[9], rightPalm: keypoints[10]）
     let leftPalm = keypoints[9];
