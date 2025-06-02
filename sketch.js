@@ -152,6 +152,19 @@ function draw() {
     let pose = poses[0].pose;
     let keypoints = pose.keypoints;
 
+    // 畫出所有關鍵點
+    for (let i = 0; i < keypoints.length; i++) {
+      let kp = keypoints[i];
+      let x = width - kp.position.x;
+      let y = kp.position.y;
+      if (kp.score > 0.2) {
+        fill(255, 0, 0);
+        ellipse(x, y, 10, 10);
+        fill(0);
+        text(i, x + 10, y);
+      }
+    }
+
     // 左手掌中心 = 左手腕(keypoints[9])與左手指根(keypoints[5])的中點
     let leftWrist = keypoints[9];
     let leftBase = keypoints[5];
@@ -172,7 +185,7 @@ function draw() {
 
     // 檢查左手掌是否碰到左選項
     if (
-      leftWrist.score > 0.3 && leftBase.score > 0.3 &&
+      leftWrist.score > 0.15 && leftBase.score > 0.15 &&
       leftPalmX > optionLeft.x &&
       leftPalmX < optionLeft.x + optionLeft.w &&
       leftPalmY > optionLeft.y &&
