@@ -25,12 +25,6 @@ const optionHeight = 80;
 const optionLeft = { x: 0, y: optionY, w: 320, h: optionHeight }; // 左半邊
 const optionRight = { x: 320, y: optionY, w: 320, h: optionHeight }; // 右半邊
 
-let bgImg; // 新增：背景圖變數
-
-function preload() {
-  bgImg = loadImage('background.jpg'); // 請將你的背景圖命名為 background.jpg 並放在同資料夾
-}
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   video = createCapture(VIDEO, () => {
@@ -54,12 +48,8 @@ function modelReady() {
 }
 
 function draw() {
-  // 先畫背景圖鋪滿整個視窗
-  if (bgImg) {
-    image(bgImg, 0, 0, width, height);
-  } else {
-    background(220);
-  }
+  // 單色背景（可自行調整顏色）
+  background(220);
 
   // 攝影機畫面顯示在畫面正中央
   if (videoReady && video.loadedmetadata) {
