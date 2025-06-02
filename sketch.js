@@ -19,6 +19,12 @@ let questions = [
   { q: "教育科技系有開設哪一門與 AI 有關的課程？", left: "AI 遊戲設計", right: "機器學習與教育應用", answer: "left" }
 ];
 
+// 選項區域座標
+const optionY = 240; // height / 2
+const optionHeight = 80;
+const optionLeft = { x: 0, y: optionY, w: 320, h: optionHeight }; // 左半邊
+const optionRight = { x: 320, y: optionY, w: 320, h: optionHeight }; // 右半邊
+
 function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO, () => {
@@ -78,18 +84,19 @@ function draw() {
   textAlign(CENTER, CENTER);
   text(q.q, width / 2, height / 2 - 60);
 
+  // 畫出選項區域
   fill(0, 100, 255, 180);
-  rect(0, height / 2, width / 2, 80);
+  rect(optionLeft.x, optionLeft.y, optionLeft.w, optionLeft.h);
   fill(255);
   textSize(28);
   textAlign(CENTER, CENTER);
-  text(q.left, width / 4, height / 2 + 40);
+  text(q.left, width / 4, optionLeft.y + optionLeft.h / 2);
 
   fill(0, 255, 100, 180);
-  rect(width / 2, height / 2, width / 2, 80);
+  rect(optionRight.x, optionRight.y, optionRight.w, optionRight.h);
   fill(255);
   textAlign(CENTER, CENTER);
-  text(q.right, width * 3 / 4, height / 2 + 40);
+  text(q.right, width * 3 / 4, optionRight.y + optionRight.h / 2);
 
   // 只在 showResult 為 false 時偵測作答
   if (poses.length > 0 && !showResult) {
@@ -101,9 +108,30 @@ function draw() {
     let leftWristX = width - leftWrist.x;
     let rightWristX = width - rightWrist.x;
 
-    if (leftWrist.confidence > 0.5 && leftWristX < width / 4 && leftWrist.y > height / 2 && leftWrist.y < height / 2 + 80) {
+    // 畫出手腕座標點
+    fill(255, 0, 0);
+    ellipse(leftWristX, leftWrist.y, 20, 20);
+    fill(0, 255, 0);
+    ellipse(rightWristX, rightWrist.y, 20, 20);
+
+    // 檢查左手是否碰到左選項
+    if (
+      leftWrist.confidence > 0.5 &&
+      leftWristX > optionLeft.x &&
+      leftWristX < optionLeft.x + optionLeft.w &&
+      leftWrist.y > optionLeft.y &&
+      leftWrist.y < optionLeft.y + optionLeft.h
+    ) {
       checkAnswer("left");
-    } else if (rightWrist.confidence > 0.5 && rightWristX > width * 3 / 4 && rightWrist.y > height / 2 && rightWrist.y < height / 2 + 80) {
+    }
+    // 檢查右手是否碰到右選項
+    else if (
+      rightWrist.confidence > 0.5 &&
+      rightWristX > optionRight.x &&
+      rightWristX < optionRight.x + optionRight.w &&
+      rightWrist.y > optionRight.y &&
+      rightWrist.y < optionRight.y + optionRight.h
+    ) {
       checkAnswer("right");
     }
   }
