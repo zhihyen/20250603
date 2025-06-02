@@ -84,6 +84,18 @@ function draw() {
   textAlign(CENTER, CENTER);
   text(q.q, width / 2, height / 2 - 60);
 
+  // ===== 顯示手部提示框 =====
+  noFill();
+  strokeWeight(3);
+  if (q.answer === "left") {
+    stroke(255, 200, 0); // 黃色框表示請用左手
+    rect(optionLeft.x + 10, optionLeft.y + 10, optionLeft.w - 20, optionLeft.h - 20);
+  } else {
+    stroke(255, 200, 0); // 黃色框表示請用右手
+    rect(optionRight.x + 10, optionRight.y + 10, optionRight.w - 20, optionRight.h - 20);
+  }
+  strokeWeight(1); // 回復預設
+
   // 畫出選項區域
   fill(0, 100, 255, 180);
   rect(optionLeft.x, optionLeft.y, optionLeft.w, optionLeft.h);
