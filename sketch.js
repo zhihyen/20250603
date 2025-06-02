@@ -18,6 +18,9 @@ let questions = [
   { q: "教育科技系有開設哪一門與 AI 有關的課程？", left: "AI 遊戲設計", right: "機器學習與教育應用", answer: "left" }
 ];
 
+// 正確用法範例
+let classifier;
+
 function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO);
@@ -28,10 +31,13 @@ function setup() {
   poseNet.on('pose', function(results) {
     poses = results;
   });
+
+  classifier = ml5.imageClassifier('MobileNet', modelLoaded);
 }
 
 function modelReady() {
   // 模型載入完成
+  console.log('Model Loaded!');
 }
 
 function draw() {
