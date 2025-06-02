@@ -97,9 +97,13 @@ function draw() {
     let leftWrist = pose.leftWrist;
     let rightWrist = pose.rightWrist;
 
-    if (leftWrist.confidence > 0.5 && leftWrist.x < width / 4 && leftWrist.y > height / 2 && leftWrist.y < height / 2 + 80) {
+    // 鏡像翻轉 x 座標
+    let leftWristX = width - leftWrist.x;
+    let rightWristX = width - rightWrist.x;
+
+    if (leftWrist.confidence > 0.5 && leftWristX < width / 4 && leftWrist.y > height / 2 && leftWrist.y < height / 2 + 80) {
       checkAnswer("left");
-    } else if (rightWrist.confidence > 0.5 && rightWrist.x > width * 3 / 4 && rightWrist.y > height / 2 && rightWrist.y < height / 2 + 80) {
+    } else if (rightWrist.confidence > 0.5 && rightWristX > width * 3 / 4 && rightWrist.y > height / 2 && rightWrist.y < height / 2 + 80) {
       checkAnswer("right");
     }
   }
