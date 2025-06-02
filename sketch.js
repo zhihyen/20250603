@@ -101,36 +101,41 @@ function draw() {
   // 只在 showResult 為 false 時偵測作答
   if (poses.length > 0 && !showResult) {
     let pose = poses[0].pose;
-    let leftWrist = pose.leftWrist;
-    let rightWrist = pose.rightWrist;
+    let keypoints = poses[0].pose.keypoints;
+
+    // 取得左右手掌（leftPalm: keypoints[9], rightPalm: keypoints[10]）
+    let leftPalm = keypoints[9];
+    let rightPalm = keypoints[10];
 
     // 鏡像翻轉 x 座標
-    let leftWristX = width - leftWrist.x;
-    let rightWristX = width - rightWrist.x;
+    let leftPalmX = width - leftPalm.position.x;
+    let rightPalmX = width - rightPalm.position.x;
+    let leftPalmY = leftPalm.position.y;
+    let rightPalmY = rightPalm.position.y;
 
-    // 畫出手腕座標點
-    fill(255, 0, 0);
-    ellipse(leftWristX, leftWrist.y, 20, 20);
-    fill(0, 255, 0);
-    ellipse(rightWristX, rightWrist.y, 20, 20);
+    // 畫出手掌座標點
+    fill(255, 128, 0);
+    ellipse(leftPalmX, leftPalmY, 30, 30);
+    fill(0, 200, 255);
+    ellipse(rightPalmX, rightPalmY, 30, 30);
 
-    // 檢查左手是否碰到左選項
+    // 檢查左手掌是否碰到左選項
     if (
-      leftWrist.confidence > 0.5 &&
-      leftWristX > optionLeft.x &&
-      leftWristX < optionLeft.x + optionLeft.w &&
-      leftWrist.y > optionLeft.y &&
-      leftWrist.y < optionLeft.y + optionLeft.h
+      leftPalm.score > 0.5 &&
+      leftPalmX > optionLeft.x &&
+      leftPalmX < optionLeft.x + optionLeft.w &&
+      leftPalmY > optionLeft.y &&
+      leftPalmY < optionLeft.y + optionLeft.h
     ) {
       checkAnswer("left");
     }
-    // 檢查右手是否碰到右選項
+    // 檢查右手掌是否碰到右選項
     else if (
-      rightWrist.confidence > 0.5 &&
-      rightWristX > optionRight.x &&
-      rightWristX < optionRight.x + optionRight.w &&
-      rightWrist.y > optionRight.y &&
-      rightWrist.y < optionRight.y + optionRight.h
+      rightPalm.score > 0.5 &&
+      rightPalmX > optionRight.x &&
+      rightPalmX < optionRight.x + optionRight.w &&
+      rightPalmY > optionRight.y &&
+      rightPalmY < optionRight.y + optionRight.h
     ) {
       checkAnswer("right");
     }
