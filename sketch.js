@@ -84,17 +84,12 @@ function draw() {
   textAlign(CENTER, CENTER);
   text(q.q, width / 2, height / 2 - 60);
 
-  // ===== 顯示手部提示框 =====
-  noFill();
-  strokeWeight(3);
-  if (q.answer === "left") {
-    stroke(255, 200, 0); // 黃色框表示請用左手
-    rect(optionLeft.x + 10, optionLeft.y + 10, optionLeft.w - 20, optionLeft.h - 20);
-  } else {
-    stroke(255, 200, 0); // 黃色框表示請用右手
-    rect(optionRight.x + 10, optionRight.y + 10, optionRight.w - 20, optionRight.h - 20);
-  }
-  strokeWeight(1); // 回復預設
+  // ===== 提示手擺放在可被偵測到的位置 =====
+  fill(255, 255, 0, 180);
+  noStroke();
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("請將雙手手腕放在畫面內，靠近身體兩側，\n手腕圓點出現即可作答", width / 2, 40);
 
   // 畫出選項區域
   fill(0, 100, 255, 180);
