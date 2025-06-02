@@ -152,30 +152,19 @@ function draw() {
     let pose = poses[0].pose;
     let keypoints = pose.keypoints;
 
-    // 畫出所有關鍵點
-    for (let i = 0; i < keypoints.length; i++) {
-      let kp = keypoints[i];
-      let x = width - kp.position.x; // 鏡像
-      let y = kp.position.y;
-      if (kp.score > 0.2) {
-        fill(255, 0, 0);
-        ellipse(x, y, 10, 10);
-        fill(0);
-        text(i, x + 10, y); // 標上編號
-      }
-    }
+    // 左手掌中心 = 左手腕(keypoints[9])與左手指根(keypoints[5])的中點
+    let leftWrist = keypoints[9];
+    let leftBase = keypoints[5];
+    let leftPalmX = width - ((leftWrist.position.x + leftBase.position.x) / 2);
+    let leftPalmY = (leftWrist.position.y + leftBase.position.y) / 2;
 
-    // 取得左右手掌（leftPalm: keypoints[9], rightPalm: keypoints[10]）
-    let leftPalm = keypoints[9];
-    let rightPalm = keypoints[10];
+    // 右手掌中心 = 右手腕(keypoints[10])與右手指根(keypoints[6])的中點
+    let rightWrist = keypoints[10];
+    let rightBase = keypoints[6];
+    let rightPalmX = width - ((rightWrist.position.x + rightBase.position.x) / 2);
+    let rightPalmY = (rightWrist.position.y + rightBase.position.y) / 2;
 
-    // 鏡像翻轉 x 座標
-    let leftPalmX = width - leftPalm.position.x;
-    let rightPalmX = width - rightPalm.position.x;
-    let leftPalmY = leftPalm.position.y;
-    let rightPalmY = rightPalm.position.y;
-
-    // 畫出手掌座標點
+    // 畫出手掌中心點
     fill(255, 128, 0);
     ellipse(leftPalmX, leftPalmY, 30, 30);
     fill(0, 200, 255);
@@ -183,7 +172,7 @@ function draw() {
 
     // 檢查左手掌是否碰到左選項
     if (
-      leftPalm.score > 0.5 &&
+      leftWrist.score > 0.3 && leftBase.score > 0.3 &&
       leftPalmX > optionLeft.x &&
       leftPalmX < optionLeft.x + optionLeft.w &&
       leftPalmY > optionLeft.y &&
@@ -193,7 +182,7 @@ function draw() {
     }
     // 檢查右手掌是否碰到右選項
     else if (
-      rightPalm.score > 0.5 &&
+      rightWrist.score > 0.3 && rightBase.score > 0.3 &&
       rightPalmX > optionRight.x &&
       rightPalmX < optionRight.x + optionRight.w &&
       rightPalmY > optionRight.y &&
