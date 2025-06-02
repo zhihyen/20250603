@@ -18,26 +18,27 @@ let questions = [
   { q: "教育科技系有開設哪一門與 AI 有關的課程？", left: "AI 遊戲設計", right: "機器學習與教育應用", answer: "left" }
 ];
 
-// 正確用法範例
-let classifier;
-
+// 移除 MobileNet 相關，僅用 poseNet
 function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide();
 
-  poseNet = ml5.poseNet(video, modelReady);
-  poseNet.on('pose', function(results) {
-    poses = results;
-  });
-
-  classifier = ml5.imageClassifier('MobileNet', modelLoaded);
+  // 等待 ml5 載入完成再初始化 poseNet
+  if (typeof ml5 !== "undefined") {
+    poseNet = ml5.poseNet(video, modelReady);
+    poseNet.on('pose', function(results) {
+      poses = results;
+    });
+  } else {
+    console.error("ml5 尚未載入！");
+  }
 }
 
 function modelReady() {
   // 模型載入完成
-  console.log('Model Loaded!');
+  console.log('PoseNet Model Loaded!');
 }
 
 function draw() {
