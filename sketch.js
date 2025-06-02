@@ -25,12 +25,18 @@ const optionHeight = 80;
 const optionLeft = { x: 0, y: optionY, w: 320, h: optionHeight }; // 左半邊
 const optionRight = { x: 320, y: optionY, w: 320, h: optionHeight }; // 右半邊
 
+let bgImg; // 新增：背景圖變數
+
+function preload() {
+  bgImg = loadImage('background.jpg'); // 請將你的背景圖命名為 background.jpg 並放在同資料夾
+}
+
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(windowWidth, windowHeight);
   video = createCapture(VIDEO, () => {
     videoReady = true;
   });
-  video.size(width, height);
+  video.size(640, 480); // 攝影機畫面建議固定大小
   video.hide();
 
   if (typeof ml5 !== "undefined") {
@@ -48,14 +54,19 @@ function modelReady() {
 }
 
 function draw() {
-  background(220);
+  // 先畫背景圖鋪滿整個視窗
+  if (bgImg) {
+    image(bgImg, 0, 0, width, height);
+  } else {
+    background(220);
+  }
 
-  // 攝影機畫面水平翻轉
+  // 攝影機畫面顯示在畫面正中央
   if (videoReady && video.loadedmetadata) {
     push();
-    translate(width, 0);
-    scale(-1, 1);
-    image(video, 0, 0, width, height);
+    translate((width + 640) / 2, (height - 480) / 2); // 置中
+    scale(-1, 1); // 水平翻轉
+    image(video, 0, 0, 640, 480);
     pop();
   } else {
     fill(0);
@@ -220,4 +231,8 @@ function checkAnswer(ans) {
     showResult = false;
     questionIndex++;
   }, 1000);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
