@@ -127,7 +127,7 @@ function draw() {
   noStroke();
   textSize(20);
   textAlign(CENTER, CENTER);
-  text("請將雙手手腕放在畫面內，靠近身體兩側，\n手腕圓點出現即可作答", width / 2, 40);
+  text("請將手指放在畫面內，指尖圓點出現即可作答", width / 2, 40);
 
   // 畫出選項區域
   fill(0, 100, 255, 180);
