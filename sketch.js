@@ -30,8 +30,10 @@ function setup() {
   video = createCapture(VIDEO, () => {
     videoReady = true;
   });
-  video.size(640, 480); // 攝影機畫面建議固定大小
+  video.size(640, 480);
   video.hide();
+
+  console.log(ml5); // ← 這行可以檢查 ml5 是否載入成功
 
   if (typeof ml5 !== "undefined") {
     poseNet = ml5.poseNet(video, modelReady);
