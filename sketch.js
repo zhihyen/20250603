@@ -148,7 +148,7 @@ function draw() {
     let pose = poses[0].pose;
     let keypoints = pose.keypoints;
 
-    // 畫出所有關鍵點
+    // 畫出所有關鍵點（debug用，可保留）
     for (let i = 0; i < keypoints.length; i++) {
       let kp = keypoints[i];
       let x = width - kp.position.x;
@@ -161,7 +161,7 @@ function draw() {
       }
     }
 
-    // 左右中指指尖：左手 keypoints[8]，右手 keypoints[12]
+    // 只用左手或右手中指指尖偵測即可
     let leftTip = keypoints[8];
     let rightTip = keypoints[12];
     let leftTipX = width - leftTip.position.x;
