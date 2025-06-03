@@ -148,19 +148,6 @@ function draw() {
     let pose = poses[0].pose;
     let keypoints = pose.keypoints;
 
-    // 畫出所有關鍵點（debug用，可保留）
-    for (let i = 0; i < keypoints.length; i++) {
-      let kp = keypoints[i];
-      let x = width - kp.position.x;
-      let y = kp.position.y;
-      if (kp.score > 0.2) {
-        fill(255, 0, 0);
-        ellipse(x, y, 10, 10);
-        fill(0);
-        text(i, x + 10, y);
-      }
-    }
-
     // 只用左手或右手中指指尖偵測即可
     let leftTip = keypoints[8];
     let rightTip = keypoints[12];
@@ -169,11 +156,14 @@ function draw() {
     let rightTipX = width - rightTip.position.x;
     let rightTipY = rightTip.position.y;
 
-    // 畫出指尖點
-    fill(255, 128, 0);
-    ellipse(leftTipX, leftTipY, 30, 30);
-    fill(0, 200, 255);
-    ellipse(rightTipX, rightTipY, 30, 30);
+    // 只顯示偵測到的其中一個指尖點（優先左手，否則右手）
+    if (leftTip.score > 0.2) {
+      fill(255, 128, 0);
+      ellipse(leftTipX, leftTipY, 30, 30);
+    } else if (rightTip.score > 0.2) {
+      fill(0, 200, 255);
+      ellipse(rightTipX, rightTipY, 30, 30);
+    }
 
     // 檢查左手指尖是否碰到左選項
     if (
