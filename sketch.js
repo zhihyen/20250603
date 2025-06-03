@@ -51,16 +51,12 @@ function draw() {
   // 讓背景單色填滿整個視窗
   background(220);
 
-  // 攝影機畫面顯示在畫面正中央（不鋪滿）
+  // 攝影機畫面鋪滿整個視窗
   if (videoReady && video.loadedmetadata) {
     push();
-    // 計算攝影機畫面置中座標
-    let camW = 640, camH = 480;
-    let camX = (width - camW) / 2;
-    let camY = (height - camH) / 2;
-    translate(camX + camW, camY); // 先移動到正確位置再鏡像
+    translate(width, 0);
     scale(-1, 1);
-    image(video, 0, 0, camW, camH);
+    image(video, 0, 0, width, height); // 讓攝影機畫面鋪滿整個視窗
     pop();
   } else {
     fill(0);
