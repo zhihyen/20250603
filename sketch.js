@@ -161,41 +161,37 @@ function draw() {
       }
     }
 
-    // 左手掌中心 = 左手腕(keypoints[9])與左手指根(keypoints[5])的中點
-    let leftWrist = keypoints[9];
-    let leftBase = keypoints[5];
-    let leftPalmX = width - ((leftWrist.position.x + leftBase.position.x) / 2);
-    let leftPalmY = (leftWrist.position.y + leftBase.position.y) / 2;
+    // 左右中指指尖：左手 keypoints[8]，右手 keypoints[12]
+    let leftTip = keypoints[8];
+    let rightTip = keypoints[12];
+    let leftTipX = width - leftTip.position.x;
+    let leftTipY = leftTip.position.y;
+    let rightTipX = width - rightTip.position.x;
+    let rightTipY = rightTip.position.y;
 
-    // 右手掌中心 = 右手腕(keypoints[10])與右手指根(keypoints[6])的中點
-    let rightWrist = keypoints[10];
-    let rightBase = keypoints[6];
-    let rightPalmX = width - ((rightWrist.position.x + rightBase.position.x) / 2);
-    let rightPalmY = (rightWrist.position.y + rightBase.position.y) / 2;
-
-    // 畫出手掌中心點
+    // 畫出指尖點
     fill(255, 128, 0);
-    ellipse(leftPalmX, leftPalmY, 30, 30);
+    ellipse(leftTipX, leftTipY, 30, 30);
     fill(0, 200, 255);
-    ellipse(rightPalmX, rightPalmY, 30, 30);
+    ellipse(rightTipX, rightTipY, 30, 30);
 
-    // 檢查左手掌是否碰到左選項
+    // 檢查左手指尖是否碰到左選項
     if (
-      leftWrist.score > 0.05 && leftBase.score > 0.05 &&
-      leftPalmX > optionLeft.x &&
-      leftPalmX < optionLeft.x + optionLeft.w &&
-      leftPalmY > optionLeft.y &&
-      leftPalmY < optionLeft.y + optionLeft.h
+      leftTip.score > 0.2 &&
+      leftTipX > optionLeft.x &&
+      leftTipX < optionLeft.x + optionLeft.w &&
+      leftTipY > optionLeft.y &&
+      leftTipY < optionLeft.y + optionLeft.h
     ) {
       checkAnswer("left");
     }
-    // 檢查右手掌是否碰到右選項
+    // 檢查右手指尖是否碰到右選項
     else if (
-      rightWrist.score > 0.3 && rightBase.score > 0.3 &&
-      rightPalmX > optionRight.x &&
-      rightPalmX < optionRight.x + optionRight.w &&
-      rightPalmY > optionRight.y &&
-      rightPalmY < optionRight.y + optionRight.h
+      rightTip.score > 0.2 &&
+      rightTipX > optionRight.x &&
+      rightTipX < optionRight.x + optionRight.w &&
+      rightTipY > optionRight.y &&
+      rightTipY < optionRight.y + optionRight.h
     ) {
       checkAnswer("right");
     }
